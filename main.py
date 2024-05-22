@@ -9,12 +9,17 @@ def rotate(figure, angle_degree):
 
     return rotated_points
 
+def scale(figure, coefficient):
+    scaled_points = figure*coefficient
+    return scaled_points
+
 batman = np.array([[0, 0], [1, 0.2], [0.4, 1], [0.5, 0.4], [0, 0.8], [-0.5, 0.4], [-0.4, 1], [-1, 0.2], [0, 0]])
 triangle = np.array([[2, 4], [1, 1], [3, 1], [2, 4]])
 rectangle = np.array([[1, 3], [1, 1], [4, 1], [4, 3], [1, 3]])
 rotated_batman = rotate(batman, 90)
-x = rotated_batman[:, 0]
-y = rotated_batman[:, 1]
+scaled_triangle = scale(triangle, 12)
+x = scaled_triangle[:, 0]
+y = scaled_triangle[:, 1]
 
 plt.figure(figsize=(8, 6))
 plt.plot(x, y, marker='o', linestyle='-')
