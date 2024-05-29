@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
 
 def rotate(figure, angle_degree):
     angle_rad = np.radians(angle_degree)
@@ -44,8 +45,20 @@ def custom_transform(figure, transformation_matrix):
 batman = np.array([[0, 0], [1, 0.2], [0.4, 1], [0.5, 0.4], [0, 0.8], [-0.5, 0.4], [-0.4, 1], [-1, 0.2], [0, 0]])
 triangle = np.array([[2, 4], [1, 1], [3, 1], [2, 4]])
 rectangle = np.array([[1, 3], [1, 1], [4, 1], [4, 3], [1, 3]])
+pyramid = np.array([
+    [0, 0, 0],
+    [1, 0, 0],
+    [1, 1, 0],
+    [0, 1, 0],
+    [0.5, 0.5, 1]
+])
 
 random_transformation_matrix = np.array([[0.65, -0.6], [0, 1]])
+
+np.random.seed(42)
+random_transformation_matrix_3d = np.random.rand(3, 3)
+transformed_pyramid = custom_transform(pyramid, random_transformation_matrix_3d)
+
 
 rotated_batman, rotate_matrix = rotate(batman, 45)
 scaled_triangle = scale(triangle, 12)
@@ -62,6 +75,40 @@ plt.ylabel('Y')
 plt.grid(True)
 plt.axis('equal')
 plt.show()
+
+
+fig = plt.figure(figsize=(12, 6))
+
+
+edges = [
+    [0, 1], [1, 2], [2, 3], [3, 0],
+    [0, 4], [1, 4], [2, 4], [3, 4]
+]
+
+ax1 = fig.add_subplot(121, projection='3d')
+for edge in edges:
+    ax1.plot([pyramid[edge[0], 0], pyramid[edge[1], 0]],
+             [pyramid[edge[0], 1], pyramid[edge[1], 1]],
+             [pyramid[edge[0], 2], pyramid[edge[1], 2]],)
+ax1.set_title("Original Pyramid")
+ax1.set_xlabel("X")
+ax1.set_ylabel("Y")
+ax1.set_zlabel("Z")
+
+
+ax2 = fig.add_subplot(122, projection='3d')
+for edge in edges:
+    ax2.plot([transformed_pyramid[edge[0], 0], transformed_pyramid[edge[1], 0]],
+             [transformed_pyramid[edge[0], 1], transformed_pyramid[edge[1], 1]],
+             [transformed_pyramid[edge[0], 2], transformed_pyramid[edge[1], 2]],)
+ax2.set_title("Transformed Pyramid")
+ax2.set_xlabel("X")
+ax2.set_ylabel("Y")
+ax2.set_zlabel("Z")
+
+plt.show()
+
+print("Random Transformation Matrix:\n", random_transformation_matrix)
 
 
 
