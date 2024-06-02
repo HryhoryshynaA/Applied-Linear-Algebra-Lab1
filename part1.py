@@ -3,12 +3,17 @@ import matplotlib.pyplot as plt
 
 
 def rotate(figure, angle_degree):
+    center = np.mean(figure, axis=0)
     angle_rad = np.radians(angle_degree)
+    rotation_matrix = np.array([
+        [np.cos(angle_rad), -np.sin(angle_rad)],
+        [np.sin(angle_rad), np.cos(angle_rad)]
+    ])
+    moved_figure = figure - center
+    rotated_translated_figure = np.dot(moved_figure, rotation_matrix)
+    rotated_figure = rotated_translated_figure + center
 
-    rotation_matrix = np.array([[np.cos(angle_rad), -np.sin(angle_rad)], [np.sin(angle_rad), np.cos(angle_rad)]])
-    rotated_points = np.dot(figure, rotation_matrix)
-
-    return rotated_points, rotation_matrix
+    return rotated_figure, rotation_matrix
 
 def scale(figure, coefficient):
     scale_matrix = np.array([[coefficient, 0], [0, coefficient]])
@@ -28,16 +33,18 @@ def reflect(figure, axis):
     reflected_points = np.dot(figure, reflect_matrix)
     return reflected_points, reflect_matrix
 
+
 def shear_axis(figure, axis, factor):
     if axis == 'x':
-        shear_matrix = np.array([[1, factor], [0, 1]])
+        shear_matrix = np.array([[1, factor, 0], [0, 1, 0]])
     elif axis == 'y':
-        shear_matrix = np.array([[1, 0], [factor, 1]])
-    else:
-        print("Axis must be 'x' or 'y'")
-        return figure, None
-    sheared_points = np.dot(figure, shear_matrix)
-    return sheared_points, shear_matrix
+        shear_matrix = np.array([[1, 0, 0], [factor, 1, 0]])
+
+    figure_homogeneous = np.hstack([figure, np.ones((figure.shape[0], 1))])
+    sheared_figure_standard = np.dot(figure_homogeneous, shear_matrix.T)
+    sheared_figure = sheared_figure_standard[:, :2]
+
+    return sheared_figure, shear_matrix
 
 def custom_transform(figure, transformation_matrix):
     transformed_points = np.dot(figure, transformation_matrix)
