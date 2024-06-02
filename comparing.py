@@ -5,10 +5,9 @@ import matplotlib.pyplot as plt
 
 triangle = np.array([[2, 4], [1, 1], [3, 1], [2, 4]])
 rectangle = np.array([[1, 3], [1, 1], [4, 1], [4, 3], [1, 3]])
-custom_matrix = np.array([[0, 0, 0.2, -4], [1, 0.2, 0.5, 0.4]])
 
-changed_figure, changed_figure_matrix = p1.custom_transform(triangle, custom_matrix)
-changed_figure_cv2 = p2.custom_transform_cv2(triangle, custom_matrix)
+changed_figure, changed_figure_matrix = p1.rotate(triangle, 45)
+changed_figure_cv2 = p2.rotate_cv2(triangle, 45)
 
 
 plt.figure(figsize=(12, 8))
