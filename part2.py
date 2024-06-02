@@ -64,8 +64,14 @@ def reflect_image(image, axis): # in cv2 # axis = 1 for x, 0 for y, -1 for xy
     return reflected_image
 
 
-def shear_matrix(x_shear, y_shear):
-    return np.array([[1, x_shear, 0], [y_shear, 1, 0], [0, 0, 1]])
+def shear_image(image, axis, factor):
+    rows, cols = image.shape[:2]
+    if axis == 'x':
+        shear_matrix = np.array([[1, factor, 0], [0, 1, 0]], dtype=np.float32)
+    elif axis == 'y':
+        shear_matrix = np.array([[1, 0, 0], [factor, 1, 0]], dtype=np.float32)
+    sheared_image = cv2.warpAffine(image, shear_matrix, (cols, rows))
+    return sheared_image
 
 def custom_tranform_image(image, transformation_matrix):
     rows, cols = image.shape[:2]
