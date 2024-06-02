@@ -28,7 +28,7 @@ def reflect(figure, axis):
     reflected_points = np.dot(figure, reflect_matrix)
     return reflected_points, reflect_matrix
 
-def nahyl_axis(figure, axis, factor):
+def shear_axis(figure, axis, factor):
     if axis == 'x':
         shear_matrix = np.array([[1, factor], [0, 1]])
     elif axis == 'y':
@@ -67,7 +67,7 @@ def plot_transformations(figure, figure_name):
     rotated_figure, rotate_matrix = rotate(figure, 45)
     scaled_figure, scale_matrix = scale(figure, 2)
     reflected_figure_x, reflect_matrix_x = reflect(figure, "x")
-    sheared_figure, shear_matrix = nahyl_axis(figure, "x", 1)
+    sheared_figure, shear_matrix = shear_axis(figure, "x", 1)
     custom_matrix = np.array([[0.6, -1], [0, 7]])
     custom_transformed_figure, custom_matrix = custom_transform(figure, custom_matrix)
 
